@@ -17,4 +17,10 @@ def hello(path: String): Unit =
 
   println(result)
 
+  val result2 = left.map((a) => similarity(a, right)).sum
+
+  println(result2)
+
 def diff(a: Int, b: Int): Int = (a - b).abs
+
+def similarity(a: Int, bs: List[Int]) = a * bs.filter((b) => b == a).length
