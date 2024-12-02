@@ -10,11 +10,27 @@ def hello(path: String): Unit =
     .map(line => line.split(" ").map((l) => l.toInt).toList)
     .toList
 
-  val result = input.filter(IsOrdered).filter(isSafe).length
+  val result = input.filter(isOrdered).filter(isSafe)
 
-  println(result)
+  println(result.length)
 
-def IsOrdered(xs: List[Int]): Boolean =
+  val result2 = input
+    .filterNot(result.contains)
+    .map(variants)
+    .filter(report =>
+      report
+        .filter(isOrdered)
+        .filter(isSafe)
+        .length > 0
+    )
+
+  println(result.length + result2.length)
+
+def variants(xs: List[Int]): List[List[Int]] = xs match
+  case Nil     => List(List())
+  case x :: xs => xs :: (variants(xs).map(ys => x :: ys))
+
+def isOrdered(xs: List[Int]): Boolean =
   xs.sorted == xs | xs.sorted.reverse == xs
 
 def isSafe(xs: List[Int]): Boolean = xs match
